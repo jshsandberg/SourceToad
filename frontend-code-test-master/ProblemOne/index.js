@@ -62,7 +62,7 @@ function mutateArray(a) {
     const flattenObj = (obj, answer = {}) => {
         for(let key in obj){
             if (Array.isArray(obj[key])) {
-                answer[key] = Object.values(obj[key]);
+                answer[key] = Object.values(obj[key]).reduce((a, b) => a + b, 0);
             }
             else if (typeof obj[key] == 'object') {
                 flattenObj(obj[key], answer, array);
@@ -73,7 +73,7 @@ function mutateArray(a) {
         };
         array.push(answer);
     };
-    
+
     a.forEach(item => {
         flattenObj(item);
     });
