@@ -65,7 +65,7 @@ function mutateArray(a) {
                 answer[key] = Object.values(obj[key]).reduce((a, b) => a + b, 0);
             }
             else if (typeof obj[key] == 'object') {
-                flattenObj(obj[key], answer, array);
+                flattenObj(obj[key], answer);
             } 
             else {
             answer[key] = obj[key];
@@ -75,10 +75,11 @@ function mutateArray(a) {
     };
 
     a.forEach(item => {
+      if (item.guest_type === "guest")
         flattenObj(item);
     });
 
-    return array;   
+    return [...new Set(array)];   
 }
 
 $(document).ready(function() {
