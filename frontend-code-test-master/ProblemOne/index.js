@@ -79,6 +79,11 @@ function mutateArray(a) {
         flattenObj(item);
     });
 
+    array.sort((a, b) => {
+      return a.last_name === b.last_name ? a.first_name.localeCompare(b.first_name) : a.last_name.localeCompare(b.last_name);
+    });
+
+
     return [...new Set(array)];   
 }
 
