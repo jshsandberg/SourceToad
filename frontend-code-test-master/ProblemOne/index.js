@@ -56,7 +56,29 @@ var arr = [
 ];
 
 function mutateArray(a) {
-    return a;
+
+  const array = [];
+ 
+    const flattenObj = (obj, answer = {}) => {
+        for(let key in obj){
+            if (Array.isArray(obj[key])) {
+                answer[key] = Object.values(obj[key]);
+            }
+            else if (typeof obj[key] == 'object') {
+                flattenObj(obj[key], answer, array);
+            } 
+            else {
+            answer[key] = obj[key];
+          }
+        };
+        array.push(answer);
+    };
+    
+    a.forEach(item => {
+        flattenObj(item);
+    });
+
+    return array;   
 }
 
 $(document).ready(function() {
