@@ -51,48 +51,68 @@ export default function App() {
   })
 
   const solve = useCallback(() => {
+
+    
+
     if (firstNumber !== null) {
       switch (operation) {
         case '+':
           let answerPlus = (parseFloat(firstNumber) + parseFloat(result));
+          let plusStr = answerPlus.toString();
           let decimalCheckPlus = (decimalCount(answerPlus));
+          plusStr.length > 9 ?
+          (setResult(answerPlus.toPrecision(2)), setFirstNumber(null), setOperation(null), setEqualPressed(true)) : 
           decimalCheckPlus > 4 ? (setResult(answerPlus.toFixed(4)), setFirstNumber(null), setOperation(null), setEqualPressed(true)) :
-          // answerPlus % 1 !== 0 ? (setResult(answerPlus.toFixed(2)), setFirstNumber(null), setOperation(null), setEqualPressed(true)) :
           setResult(answerPlus); setFirstNumber(null); setOperation(null); setEqualPressed(true);
           break;
         case '-':
           let answerSubtract = (parseFloat(firstNumber) - parseFloat(result));
+          let subtractStr = answerSubtract.toString();
           let decimalCheckSubtract = (decimalCount(answerSubtract));
+          subtractStr.length > 9 ?
+          (setResult(answerSubtract.toPrecision(2)), setFirstNumber(null), setOperation(null), setEqualPressed(true)) : 
           decimalCheckSubtract > 4 ? (setResult(answerSubtract.toFixed(4)), setFirstNumber(null), setOperation(null), setEqualPressed(true)) :
-          // answerSubtract % 1 !== 0 ? (setResult(answerSubtract.toFixed(2)), setFirstNumber(null), setOperation(null), setEqualPressed(true)) :
           setResult(answerSubtract); setFirstNumber(null); setOperation(null); setEqualPressed(true);
           break;
         case 'x':
           let answerMult = (parseFloat(firstNumber) * parseFloat(result));
+          let multStr = answerMult.toString();
           let decimalCheckMult = (decimalCount(answerMult));
+          console.log(multStr.length)
+          multStr.length > 9 ?
+          (setResult(answerMult.toPrecision(2)), setFirstNumber(null), setOperation(null), setEqualPressed(true)) : 
           decimalCheckMult > 4 ? (setResult(answerMult.toFixed(4)), setFirstNumber(null), setOperation(null), setEqualPressed(true)) :
-          // answerMult % 1 !== 0 ? (setResult(answerMult.toFixed(2)), setFirstNumber(null), setOperation(null), setEqualPressed(true)) :
           setResult(answerMult); setFirstNumber(null); setOperation(null); setEqualPressed(true);
           break;
         case '/':
           let answerDiv = (parseFloat(firstNumber) / parseFloat(result));
-          // answerDiv % 1 !== 0 ? (setResult(answerDiv.toFixed(2)), setFirstNumber(null), setOperation(null), setEqualPressed(true)) :
+          let divStr = answerDiv.toString();
           let decimalCheckDiv = (decimalCount(answerDiv));
+          divStr.length > 9 ?
+          (setResult(answerDiv.toPrecision(2)), setFirstNumber(null), setOperation(null), setEqualPressed(true)) : 
           decimalCheckDiv > 4 ? (setResult(answerDiv.toFixed(4)), setFirstNumber(null), setOperation(null), setEqualPressed(true)) :
           setResult(answerDiv); setFirstNumber(null); setOperation(null); setEqualPressed(true);
           break;
       }
+    
+
     }
   });
 
 
 
-  const reset = useCallback(() => {
-    setResult(0); setFirstNumber(null); setOperation(null); setEqualPressed(false)
-  });
+  const reset = () => {
+    setResult(0); setFirstNumber(null); setOperation(null); setEqualPressed(false);
+  };
+
+  // NEED TO FIGURE OUT SWAPPING WHEN ITS EXPONENTIAL
 
   const swap = useCallback(() => {
-    setResult(result => Math.abs(result) * -1);
+    let resultStr = result.toString();
+    console.log(resultStr)
+    resultStr.length > 9 ?
+      setResult(result => (`-${result}`)) :
+      setResult(result => Math.abs(result) * -1);
   });
 
   const decimal = useCallback(() => {
