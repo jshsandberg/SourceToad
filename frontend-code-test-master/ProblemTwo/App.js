@@ -33,7 +33,7 @@ export default function App() {
       setResult(input) : 
     result !== 0 && operation === null && length < 10 ? 
       setResult(result => (`${result}${input}`)) : 
-    result === '0.' && operation !== null && firstNumber === null ? 
+    result === '0.' && operation !== null && firstNumber === null  ? 
       (setFirstNumber(result), setResult(`0.${input}`)) :
     result !== 0 && operation !== null && firstNumber === null ? 
       (setFirstNumber(result), setResult(input)) :
@@ -45,14 +45,15 @@ export default function App() {
     console.log('result', result, 'operation', operation, 'firstNum', firstNumber, 'equalpress?', equalPressed)
 
   const operate = useCallback((input) => {
+    result !== 0 && operation !== null && firstNumber !== null ?
+      (solve(), setOperation(input)) :
     result !== 0 ?
-    setOperation(input) :
-    null
+      setOperation(input) :
+      null
   })
 
   const solve = useCallback(() => {
 
-    
 
     if (firstNumber !== null) {
       switch (operation) {
@@ -105,14 +106,18 @@ export default function App() {
     setResult(0); setFirstNumber(null); setOperation(null); setEqualPressed(false);
   };
 
-  // NEED TO FIGURE OUT SWAPPING WHEN ITS EXPONENTIAL
 
   const swap = useCallback(() => {
     let resultStr = result.toString();
-    console.log(resultStr)
-    resultStr.length > 9 ?
-      setResult(result => (`-${result}`)) :
-      setResult(result => Math.abs(result) * -1);
+    if (resultStr[0] === `-`) {
+      setResult(resultStr.substring(1))
+    } else {
+      setResult(`-${result}`)
+    }
+    // console.log(resultStr)
+    // resultStr.length > 9 ?
+    //   setResult(result => (`-${result}`)) :
+    //   setResult(result => Math.abs(result) * -1);
   });
 
   const decimal = useCallback(() => {
@@ -134,11 +139,18 @@ export default function App() {
   });
 
   const percentage = useCallback(() => {
-    let percentageDecimalCheck = decimalCount(result);
-    console.log(percentageDecimalCheck)
-    percentageDecimalCheck > 4 ? 
-    (setResult(result => (result / 100).toFixed(4)), setEqualPressed(true)) :
-    setResult(result => (result / 100)), setEqualPressed(true);
+    let resultStr = result.toString();
+    console.log(resultStr.length)
+    if (resultStr.length > 2) {
+      setResult(result => (result / 100).toPrecision(2)); setEqualPressed(true)
+    } else {
+      setResult(result => result / 100);
+    }
+    // let percentageDecimalCheck = decimalCount(result);
+    // console.log(percentageDecimalCheck)
+    // percentageDecimalCheck > 4 ? 
+    // (setResult(result => (result / 100).toFixed(4)), setEqualPressed(true)) :
+    // setResult(result => (result / 100)), setEqualPressed(true);
   });
 
   const checkLengthOfResult = num => {
