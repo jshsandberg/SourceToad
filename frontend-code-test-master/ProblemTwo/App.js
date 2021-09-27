@@ -2,9 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useCallback, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import Button from './components/Button';
-// import { CalculateFunctionality } from './function/CalculatorFunction';
 
 export default function App() {
+
+  
 
   const [result, setResult] = useState(0);
   const [firstNumber, setFirstNumber] = useState(null);
@@ -12,11 +13,15 @@ export default function App() {
   const [equalPressed, setEqualPressed] = useState(false);
   const [length, setLength] = useState(0);
 
+
+  // Using useEffect to track length of result and using that to determine the font size for the result
+
   useEffect(() => {
     let resultStr = result.toString();
     setLength(resultStr.length);
   }, [result]);
 
+  // Using decimalCount to ensure result is not too long for screen
 
   const decimalCount = num => {
     const numStr = String(num);
@@ -24,7 +29,9 @@ export default function App() {
        return numStr.split('.')[1].length;
     };
     return 0;
-  }
+  };
+
+  // The logic of how the application keeps track of state when dealing with inputs from numbers
 
   const calculate = useCallback((input) => {
     equalPressed === true && operation === null ?
@@ -42,15 +49,21 @@ export default function App() {
       null
     });
 
-    console.log('result', result, 'operation', operation, 'firstNum', firstNumber, 'equalpress?', equalPressed)
+    // Bug Test to see what is happening under the hood
 
-  const operate = useCallback((input) => {
+    // console.log('result', result, 'operation', operation, 'firstNum', firstNumber, 'equalpress?', equalPressed)
+
+    // logic for operation inputs, checks to see if you are adding / dividing ect. continuously without pressing the equal sign 
+
+  const operate = (input) => {
     result !== 0 && operation !== null && firstNumber !== null ?
       (solve(), setOperation(input)) :
     result !== 0 ?
       setOperation(input) :
       null
-  })
+  };
+
+  // logic for the calculator, have a couple checks to make sure scientific notation is used
 
   const solve = useCallback(() => {
 
@@ -101,11 +114,12 @@ export default function App() {
   });
 
 
-
+// reset state
   const reset = () => {
     setResult(0); setFirstNumber(null); setOperation(null); setEqualPressed(false);
   };
 
+// swap from positive to negative and vice versa
 
   const swap = useCallback(() => {
     let resultStr = result.toString();
@@ -114,11 +128,9 @@ export default function App() {
     } else {
       setResult(`-${result}`)
     }
-    // console.log(resultStr)
-    // resultStr.length > 9 ?
-    //   setResult(result => (`-${result}`)) :
-    //   setResult(result => Math.abs(result) * -1);
   });
+
+  // handles logic for how the decimal input should behave
 
   const decimal = useCallback(() => {
     result === 0 ? 
@@ -129,14 +141,10 @@ export default function App() {
       setResult(result => (`${result}.`)) :
     result !== 0 && operation !== null ?
       (setFirstNumber(result), setResult('0.')) :
-    
     null
-      
-    // equalPressed === true || operation === null ?
-    // (console.log(operation),
-    // setResult(result => (`${result}.`))) :
-    // (setResult(`0.`), setEqualPressed(false));
   });
+
+  // converts number into percentage while making sure the value does not exceed the length of the screen
 
   const percentage = useCallback(() => {
     let resultStr = result.toString();
@@ -146,12 +154,9 @@ export default function App() {
     } else {
       setResult(result => result / 100);
     }
-    // let percentageDecimalCheck = decimalCount(result);
-    // console.log(percentageDecimalCheck)
-    // percentageDecimalCheck > 4 ? 
-    // (setResult(result => (result / 100).toFixed(4)), setEqualPressed(true)) :
-    // setResult(result => (result / 100)), setEqualPressed(true);
   });
+
+  // Used to determine font size of result using length state
 
   const checkLengthOfResult = num => {
     const numStr = String(num);
