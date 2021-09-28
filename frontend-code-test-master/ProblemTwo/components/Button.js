@@ -1,7 +1,13 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet, Text, Dimensions } from "react-native";
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const Button = ({calculate, size, text, theme}) => {
+
+    console.log(windowHeight, windowWidth)
+
 
     const styles = StyleSheet.create({
         text: {
@@ -9,17 +15,16 @@ const Button = ({calculate, size, text, theme}) => {
             fontSize: 35
         },
         button: {
-            // flex: 1,
-            height: 91,
-            width: 91,
+            height: (windowHeight / 9),
+            width: (windowWidth / 4.1),
             alignItems: "center",
             justifyContent: "center",
             margin: 1,
             backgroundColor: theme
         },
         zero: {
-            height: 91,
-            width: 184,
+            height: (windowHeight / 9),
+            width: (windowWidth / 2.02),
             paddingLeft: 35,
             alignItems: 'flex-start',
             justifyContent: 'center',

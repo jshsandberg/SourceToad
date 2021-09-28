@@ -1,7 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useCallback, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Dimensions} from 'react-native';
 import Button from './components/Button';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default function App() {
 
@@ -188,8 +191,8 @@ export default function App() {
       flex: 2,
       justifyContent: 'center',
       alignItems: "flex-end",
-      marginRight: 20,
-      marginTop: 71
+      marginRight: '6%',
+      marginTop: "19%"
     },
     value: {
       color: 'white',
